@@ -1,3 +1,7 @@
 from django.db import models
 
-# Create your models here.
+class Post(models.Model):
+    body = models.TextField(max_length=280)
+
+    class Meta:
+        ordering = ['body']

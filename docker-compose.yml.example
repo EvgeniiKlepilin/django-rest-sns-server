@@ -1,5 +1,4 @@
-# Use postgres/example user/password credentials
-version: '3.1'
+version: '3.5'
 
 services:
 
@@ -7,10 +6,21 @@ services:
     image: postgres
     restart: always
     environment:
-      POSTGRES_PASSWORD: example
-
-  adminer:
-    image: adminer
-    restart: always
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
     ports:
-      - 8080:8080
+      - "${POSTGRES_PORT}:5432"
+
+  pgadmin:
+    image: dpage/pgadmin4
+    links:
+      - "db:pgsql-server"
+    depends_on:
+      - db
+    environment:
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL}
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD}
+    ports:
+      - "${PGADMIN_PORT}:80"
+    restart: always
