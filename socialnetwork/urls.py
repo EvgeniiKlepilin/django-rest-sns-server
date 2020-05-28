@@ -18,9 +18,11 @@ from django.urls import path, include
 from rest_framework import routers
 from rest_framework_simplejwt import views as jwt_views
 from socialnetwork.users import urls as user_urls
+from socialnetwork.posts import urls as post_urls
 
 urlpatterns = [
-    path('', include(user_urls)),
+    path('users/', include(user_urls)),
+    path('posts/', include(post_urls)),
     path('admin/', admin.site.urls),
     path('api/token/', jwt_views.TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('api/token/refresh/', jwt_views.TokenRefreshView.as_view(), name='token_refresh'),

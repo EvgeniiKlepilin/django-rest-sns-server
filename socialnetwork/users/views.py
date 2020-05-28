@@ -4,12 +4,14 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from socialnetwork.users.models import User
 from socialnetwork.users.serializers import UserSerializer
+from socialnetwork.users.permissions import IsOwnerOrReadOnly, OnlyAdminCanDelete, AllowAnyCreate
 
 class UserList(mixins.ListModelMixin,
                   mixins.CreateModelMixin,
                   generics.GenericAPIView):
     queryset = User.objects.all()
     serializer_class = UserSerializer
+    permission_classes = [AllowAnyCreate | permissions.IsAuthenticated] # test permissions
 
     def get(self, request, *args, **kwargs):
         # permissions: IsAuthenticated
@@ -25,6 +27,11 @@ class UserDetail(mixins.RetrieveModelMixin,
                     generics.GenericAPIView):
     queryset = User.objects.all()
     serializer_class = UserSerializer
+    permission_classes = [
+        permissions.IsAuthenticated,
+        IsOwnerOrReadOnly | permissions.IsAdminUser,
+        OnlyAdminCanDelete
+    ]
 
     def get(self, request, *args, **kwargs):
         # permissions: IsAuthenticated
