@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 
 import os
 import environ
+from datetime import timedelta
 
 env = environ.Env(
     DEBUG=(bool, False)
@@ -108,6 +109,13 @@ REST_FRAMEWORK = {
     ],
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
     'PAGE_SIZE': 10
+}
+
+# Simple JWT
+# https://github.com/SimpleJWT/django-rest-framework-simplejwt
+
+SIMPLE_JWT = {
+    'ACCESS_TOKEN_LIFETIME': timedelta(days=1) if DEBUG else timedelta(minutes=5),
 }
 
 # Authentication Model

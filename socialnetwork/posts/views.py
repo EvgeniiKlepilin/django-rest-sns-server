@@ -4,7 +4,7 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from socialnetwork.posts.models import Post
 from socialnetwork.posts.serializers import PostSerializer
-from socialnetwork.posts.permissions import IsOwnerOrReadOnly
+from socialnetwork.posts.permissions import IsOwnerOrAdmin
 
 class PostList(mixins.ListModelMixin,
                   mixins.CreateModelMixin,
@@ -17,11 +17,9 @@ class PostList(mixins.ListModelMixin,
         serializer.save(author=self.request.user)
 
     def get(self, request, *args, **kwargs):
-        # permissions: IsAuthenticated
         return self.list(request, *args, **kwargs)
 
     def post(self, request, *args, **kwargs):
-        # permissions: IsAuthenticated
         return self.create(request, *args, **kwargs)
 
 class PostDetail(mixins.RetrieveModelMixin,
@@ -32,7 +30,7 @@ class PostDetail(mixins.RetrieveModelMixin,
     serializer_class = PostSerializer
     permission_classes = [
         permissions.IsAuthenticated,
-        IsOwnerOrReadOnly | permissions.IsAdminUser
+        IsOwnerOrAdmin
     ]
 
     def get(self, request, *args, **kwargs):
