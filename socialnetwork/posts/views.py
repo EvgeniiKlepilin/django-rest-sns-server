@@ -34,13 +34,26 @@ class PostDetail(mixins.RetrieveModelMixin,
     ]
 
     def get(self, request, *args, **kwargs):
-        # permissions: IsAuthenticated
         return self.retrieve(request, *args, **kwargs)
 
     def put(self, request, *args, **kwargs):
-        # permissions: OnlySelf or IsAdmin
         return self.update(request, *args, **kwargs)
 
     def delete(self, request, *args, **kwargs):
-        # permissions: OnlySelf or IsAdmin
         return self.destroy(request, *args, **kwargs)
+
+class PostLike(generics.GenericAPIView):
+    queryset = Post.objects.all()
+    serializer_class = PostSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+    def put(self, request, pk, format=None):
+        instance = self.get_object()
+        instance.liked_by.add(request.user)
+        serializer = self.get_serializer(instance)
+        return Response(serializer.data)
+
+    def delete(self, request, pk, format=None):
+        instance = self.get_object()
+        instance.liked_by.remove(request.user)
+        return Response(status=status.HTTP_204_NO_CONTENT)
