@@ -3,5 +3,5 @@ from django.contrib.auth.models import AbstractUser
 from socialnetwork.posts.models import Post
 
 class User(AbstractUser):
-    likes = models.ManyToManyField(Post, related_name="liked_by")
+    likes = models.ManyToManyField(Post, related_name="liked_by", through="likes.Like")
     last_request = models.DateTimeField(null=True, blank=True)

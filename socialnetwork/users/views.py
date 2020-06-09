@@ -43,7 +43,7 @@ class UserActivity(mixins.RetrieveModelMixin,
                     generics.GenericAPIView):
     queryset = User.objects.all()
     serializer_class = UserActivitySerializer
-    permission_classes = [permissions.IsAuthenticated]
+    permission_classes = [permissions.IsAdminUser]
 
     def get(self, request, *args, **kwargs):
         return self.retrieve(request, *args, **kwargs)

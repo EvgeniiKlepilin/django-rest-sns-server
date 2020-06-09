@@ -6,8 +6,13 @@ class RequestTimeLogMiddleware:
         self.get_response = get_response
 
     def __call__(self, request):
-        user = authentication.JWTAuthentication().authenticate(request)[0]
-        if user.is_authenticated:
+        user = None
+
+        auth = authentication.JWTAuthentication().authenticate(request)
+        if auth:
+            user = auth[0]
+            
+        if user and user.is_authenticated:
             user.last_request = timezone.now()
             user.save()
         response = self.get_response(request)
