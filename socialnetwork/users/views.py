@@ -3,7 +3,7 @@ from rest_framework import viewsets, permissions, generics, mixins, status
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from socialnetwork.users.models import User
-from socialnetwork.users.serializers import UserSerializer
+from socialnetwork.users.serializers import UserSerializer, UserActivitySerializer
 from socialnetwork.users.permissions import IsOwnerOrAdmin, AllowAnyCreate
 
 class UserList(mixins.ListModelMixin,
@@ -38,3 +38,12 @@ class UserDetail(mixins.RetrieveModelMixin,
 
     def delete(self, request, *args, **kwargs):
         return self.destroy(request, *args, **kwargs)
+
+class UserActivity(mixins.RetrieveModelMixin,
+                    generics.GenericAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserActivitySerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get(self, request, *args, **kwargs):
+        return self.retrieve(request, *args, **kwargs)

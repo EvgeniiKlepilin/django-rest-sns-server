@@ -19,3 +19,9 @@ class UserSerializer(serializers.ModelSerializer):
         fields = ['id', 'username', 'password', 'first_name', 'last_name', 'email', 'date_joined', 'posts', 'likes']
         extra_kwargs = {'password': {'write_only': True}, 'books': {'required': False}}
         depth = 1
+
+class UserActivitySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ['id', 'username', 'last_login', 'last_request']
+        extra_kwargs = {'last_login': {'read_only': True}, 'last_request': {'read_only': True}}

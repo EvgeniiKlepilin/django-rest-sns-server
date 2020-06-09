@@ -5,6 +5,7 @@ from socialnetwork.users import views
 urlpatterns = [
     path('', views.UserList.as_view()),
     path('<int:pk>/', views.UserDetail.as_view()),
+    path('<int:pk>/activity/', views.UserActivity.as_view()),
 ]
 
 urlpatterns = format_suffix_patterns(urlpatterns)

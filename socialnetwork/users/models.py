@@ -4,5 +4,4 @@ from socialnetwork.posts.models import Post
 
 class User(AbstractUser):
     likes = models.ManyToManyField(Post, related_name="liked_by")
-    last_login = models.DateTimeField(null=True, blank=True)
     last_request = models.DateTimeField(null=True, blank=True)
