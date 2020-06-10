@@ -2,9 +2,11 @@ from rest_framework import viewsets, permissions, generics, mixins, status
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from socialnetwork.likes.models import Like
-from socialnetwork.likes.serializers import LikeSerializer
+from socialnetwork.likes.serializers import LikeSerializer, LikeAggregateSerializer
 from datetime import datetime
 from django.utils import timezone
+from socialnetwork.likes.utils import daterange
+from django.db.models import Count
 
 class LikeList(generics.GenericAPIView):
     queryset = Like.objects.all()
@@ -16,6 +18,7 @@ class LikeList(generics.GenericAPIView):
 
         date_from_param = request.query_params.get('date_from', None)
         date_to_param = request.query_params.get('date_to', None)
+        by_day_param = request.query_params.get('by_day', None)
 
         date_from = None
         date_to = None
@@ -37,10 +40,13 @@ class LikeList(generics.GenericAPIView):
         elif tz_date_from is None and tz_date_to:
             likes = self.get_queryset().filter(created__date=tz_date_to)
 
+        if by_day_param:
+            likes = likes.extra(select={'date': 'date(created)'}).values('date').annotate(Count('id'))
+
         page = self.paginate_queryset(likes)
 
         if page is not None:
-            serializer = self.get_serializer(page, many=True)
+            serializer = LikeAggregateSerializer(page, many=True) if by_day_param else self.get_serializer(page, many=True)
             return self.get_paginated_response(serializer.data)
 
         serializer = self.get_serializer(likes, many=True)

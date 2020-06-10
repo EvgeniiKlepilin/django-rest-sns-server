@@ -1,5 +1,6 @@
 from django.utils import timezone
 from rest_framework_simplejwt import authentication
+from rest_framework_simplejwt.exceptions import InvalidToken
 
 class RequestTimeLogMiddleware:
     def __init__(self, get_response):
@@ -7,8 +8,13 @@ class RequestTimeLogMiddleware:
 
     def __call__(self, request):
         user = None
+        auth = None
 
-        auth = authentication.JWTAuthentication().authenticate(request)
+        try:
+            auth = authentication.JWTAuthentication().authenticate(request)
+        except InvalidToken as e:
+            auth = None
+        
         if auth:
             user = auth[0]
             
