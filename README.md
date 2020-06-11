@@ -1,8 +1,11 @@
 # django-rest-sns-server
 
-<img src="https://flat.badgen.net/dependabot/thepracticaldev/dev.to?icon=dependabot" alt="Dependabot Badge" />
-<img src="https://badgen.net/pypi/v/pip" alt="PIP version">
-<img src="https://badgen.net/github/license/micromatch/micromatch" alt="LICENSE">
+<p align="left">
+    <img src="https://flat.badgen.net/dependabot/thepracticaldev/dev.to?icon=dependabot" alt="Dependabot Badge" />
+    <img src="https://badgen.net/pypi/v/pip" alt="PIP version">
+    <img src="https://badgen.net/github/license/micromatch/micromatch" alt="LICENSE">
+</p>
+
 
 Basic social networking service server written in Python with Django REST Framework
 
