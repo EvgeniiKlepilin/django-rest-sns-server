@@ -1,5 +1,7 @@
 # django-rest-sns-server
 
+<img src="https://flat.badgen.net/dependabot/thepracticaldev/dev.to?icon=dependabot" alt="Dependabot Badge" />
+
 Basic social networking service server written in Python with Django REST Framework
 
 ## Local Setup
@@ -43,6 +45,12 @@ Create a `docker-compose.yml` file and configure it to your needs. A template is
 ## Startup
 
 Make sure your DB is up and running. In case you are using provided Docker setup, run `docker-compose up` or `docker-compose up -d` in case you don't need the logging output to your console.
+
+Set up the database first by running migrations:
+
+```bash
+python manage.py migrate
+```
 
 Then, start up the server by running `python manage.py runserver`. If you encounter an error, make sure that you have activated Python Virtual Environment in your console and installed all the required packages.
 
