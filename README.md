@@ -61,6 +61,12 @@ Quit the server with CONTROL-C.
 
 You server should be available at http://127.0.0.1:8000/ .
 
-## Available API
+## Automated API Bot
 
-Here is the list of available functionality implemented in this project:
+Automated Bot is a small script that executes consequtive calls to API creating users, logging in, writing posts from users, and leaving likes. It is designed to test the system or use it as a script to prepopulate the database for testing or performance purposes. The script is configurable from the `.env` file in the same folder. The script and `.env` file are located in `automated_bot` folder.
+
+Once you configure the variables, execute the script:
+
+```bash
+python automated_bot/automated_bot.py
+```
